@@ -1,0 +1,72 @@
+buildscript {
+    ext {
+        kotlinVersion = '1.3.71'
+        springBootVersion = '2.3.12.RELEASE'
+        awsSdkVersion = '1.11.892'
+        junitVersion = '4.12'
+        kotlinxCoroutineVersion = '1.1.1'
+        kotlinxHtmlVersion = '0.6.12'
+        arrowVersion = '0.10.5'
+        dependencyManagementVersion = '1.0.6.RELEASE'
+        jvmVersion = 11
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-noarg:${kotlinVersion}")
+        classpath("io.spring.gradle:dependency-management-plugin:${dependencyManagementVersion}")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+subprojects {
+    apply plugin: 'idea'
+    apply plugin: 'kotlin'
+    apply plugin: 'kotlin-kapt'
+    apply plugin: 'kotlin-spring'
+    apply plugin: 'io.spring.dependency-management'
+
+    sourceCompatibility = jvmVersion
+    targetCompatibility = jvmVersion
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+        }
+    }
+
+    dependencies {
+        implementation "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}"
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion}"
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
+        implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
+        testImplementation "junit:junit:${junitVersion}"
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    compileKotlin {
+        kotlinOptions {
+            freeCompilerArgs = ['-Xjsr305=strict']
+            jvmTarget = "$jvmVersion"
+        }
+    }
+
+    compileTestKotlin {
+        kotlinOptions {
+            freeCompilerArgs = ['-Xjsr305=strict']
+            jvmTarget = "$jvmVersion"
+        }
+    }
+}
+
+project(':api') {
+    dependencies {
+        compile project(':core')
+    }
+}

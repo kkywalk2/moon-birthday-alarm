@@ -1,0 +1,3 @@
+rootProject.name = 'moon-birthday-alarm'
+include 'api', 'core'
+
