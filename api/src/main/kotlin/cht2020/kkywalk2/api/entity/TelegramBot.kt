@@ -1,4 +1,4 @@
-package cnt2020.kkywalk2.core.entity
+package cht2020.kkywalk2.api.entity
 
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
@@ -6,22 +6,18 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-@Table(name = "birthday_alarm")
-class BirthdayAlarm(
+@Table(name = "telegram_bot")
+class TelegramBot(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     val id: Long = 0,
 
-    @JoinColumn(name = "telegram_bot_id", insertable = false, updatable = false)
-    @ManyToOne(fetch = FetchType.EAGER)
-    val telegramBot: TelegramBot,
+    @Column(name = "name")
+    val name: String,
 
-    @Column(name = "telegram_bot_id")
-    val telegramBotId: Long = 0,
-
-    @Column(name = "birthday_datetime")
-    val birthdayDateTime: LocalDateTime,
+    @Column(name = "token")
+    val token: String,
 
     @field:CreationTimestamp
     @Column(name = "created_at")
@@ -29,5 +25,8 @@ class BirthdayAlarm(
 
     @field:UpdateTimestamp
     @Column(name = "updated_at")
-    val updatedAt: LocalDateTime
+    val updatedAt: LocalDateTime,
+
+    @OneToMany(mappedBy = "telegramBot")
+    val birthdayAlarmList: List<BirthdayAlarm>
 )

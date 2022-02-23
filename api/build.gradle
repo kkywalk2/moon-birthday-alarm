@@ -1,6 +1,8 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm'
     id 'java'
+    id 'kotlin-allopen'
+    id "org.jetbrains.kotlin.plugin.noarg"
 }
 
 group 'cht2020.kkywalk2.api'
@@ -9,6 +11,14 @@ version 'unspecified'
 repositories {
     mavenCentral()
     mavenCentral()
+}
+
+allOpen {
+    annotation 'javax.persistence.Entity'
+}
+
+noArg{
+    annotation 'javax.persistence.Entity'
 }
 
 dependencies {
