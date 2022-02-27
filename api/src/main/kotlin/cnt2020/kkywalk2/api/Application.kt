@@ -1,4 +1,4 @@
-package cht2020.kkywalk2.api
+package cnt2020.kkywalk2.api
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

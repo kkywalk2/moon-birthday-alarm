@@ -3,7 +3,7 @@ plugins {
     id 'java'
 }
 
-group 'cht2020.kkywalk2.core'
+group 'cnt2020.kkywalk2.consumer'
 version 'unspecified'
 
 repositories {
@@ -12,10 +12,7 @@ repositories {
 }
 
 dependencies {
-
 }
-
-jar { enabled = true }
 
 test {
     useJUnitPlatform()

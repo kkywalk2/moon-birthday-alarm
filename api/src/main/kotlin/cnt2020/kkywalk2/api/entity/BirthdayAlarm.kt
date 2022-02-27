@@ -1,4 +1,4 @@
-package cht2020.kkywalk2.api.entity
+package cnt2020.kkywalk2.api.entity
 
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp

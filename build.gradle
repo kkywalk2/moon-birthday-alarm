@@ -1,13 +1,10 @@
 buildscript {
     ext {
-        kotlinVersion = '1.3.71'
-        springBootVersion = '2.3.12.RELEASE'
-        awsSdkVersion = '1.11.892'
+        kotlinVersion = '1.6.10'
+        springBootVersion = '2.5.2'
         junitVersion = '4.12'
         kotlinxCoroutineVersion = '1.1.1'
-        kotlinxHtmlVersion = '0.6.12'
-        arrowVersion = '0.10.5'
-        dependencyManagementVersion = '1.0.6.RELEASE'
+        dependencyManagementVersion = '1.0.11.RELEASE'
         jvmVersion = 11
     }
     repositories {
@@ -40,8 +37,6 @@ subprojects {
 
     dependencies {
         implementation "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}"
-        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion}"
-        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
         implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
         testImplementation "junit:junit:${junitVersion}"
     }
@@ -62,11 +57,5 @@ subprojects {
             freeCompilerArgs = ['-Xjsr305=strict']
             jvmTarget = "$jvmVersion"
         }
-    }
-}
-
-project(':api') {
-    dependencies {
-        compile project(':core')
     }
 }

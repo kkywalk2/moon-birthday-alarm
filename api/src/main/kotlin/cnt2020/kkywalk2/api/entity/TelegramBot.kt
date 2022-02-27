@@ -1,4 +1,4 @@
-package cht2020.kkywalk2.api.entity
+package cnt2020.kkywalk2.api.entity
 
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
@@ -21,12 +21,12 @@ class TelegramBot(
 
     @field:CreationTimestamp
     @Column(name = "created_at")
-    val createdAt: LocalDateTime,
+    val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @field:UpdateTimestamp
     @Column(name = "updated_at")
-    val updatedAt: LocalDateTime,
+    val updatedAt: LocalDateTime = LocalDateTime.now(),
 
-    @OneToMany(mappedBy = "telegramBot")
-    val birthdayAlarmList: List<BirthdayAlarm>
+    @OneToMany(mappedBy = "telegramBot", fetch = FetchType.LAZY)
+    val birthdayAlarmList: List<BirthdayAlarm> = listOf()
 )
