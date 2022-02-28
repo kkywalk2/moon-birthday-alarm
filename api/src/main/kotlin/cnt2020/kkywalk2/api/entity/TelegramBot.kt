@@ -13,7 +13,7 @@ class TelegramBot(
     @Column(name = "id", nullable = false)
     val id: Long = 0,
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     val name: String,
 
     @Column(name = "token")

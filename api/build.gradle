@@ -30,6 +30,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'mysql:mysql-connector-java'
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinxCoroutineVersion}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${kotlinxCoroutineVersion}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-reactive:${kotlinxCoroutineVersion}"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }

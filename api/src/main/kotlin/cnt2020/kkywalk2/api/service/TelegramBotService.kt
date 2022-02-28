@@ -1,5 +1,7 @@
 package cnt2020.kkywalk2.api.service
 
+import arrow.core.Either
+import cnt2020.kkywalk2.api.common.repository.find
 import cnt2020.kkywalk2.api.dto.CreateRequest
 import cnt2020.kkywalk2.api.dto.TelegramBotDto
 import cnt2020.kkywalk2.api.entity.TelegramBot
@@ -12,8 +14,8 @@ class TelegramBotService(
     private val telegramBotRepository: TelegramBotRepository
 ) {
 
-    fun get(): List<TelegramBot> {
-        return telegramBotRepository.findAll()
+    fun findTelegramBots(): List<TelegramBotDto> {
+        return telegramBotRepository.findAll().map { it.toDto() }
     }
 
     @Transactional
@@ -23,6 +25,10 @@ class TelegramBotService(
             token = createRequest.token
         )
         return telegramBotRepository.save(telegramBot).toDto()
+    }
+
+    fun findTelegramBot(id: Long): Either<Throwable, TelegramBotDto> {
+        return telegramBotRepository.find(id).map { it.toDto() }
     }
 
     private fun TelegramBot.toDto(): TelegramBotDto {
