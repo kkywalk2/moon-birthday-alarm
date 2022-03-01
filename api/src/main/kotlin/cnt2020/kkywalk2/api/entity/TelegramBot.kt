@@ -29,4 +29,17 @@ class TelegramBot(
 
     @OneToMany(mappedBy = "telegramBot", fetch = FetchType.LAZY)
     val birthdayAlarmList: List<BirthdayAlarm> = listOf()
-)
+) {
+
+    fun copy(
+        id: Long = this.id,
+        name: String = this.name,
+        token: String = this.token,
+        createdAt: LocalDateTime = this.createdAt,
+        updatedAt: LocalDateTime = this.updatedAt,
+        birthdayAlarmList: List<BirthdayAlarm> = this.birthdayAlarmList
+    ): TelegramBot {
+        return TelegramBot(id, name, token, createdAt, updatedAt, birthdayAlarmList)
+    }
+
+}

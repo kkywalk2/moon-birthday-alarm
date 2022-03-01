@@ -1,10 +1,7 @@
 package cnt2020.kkywalk2.api.controller
 
 import arrow.core.Either
-import cnt2020.kkywalk2.api.dto.CreateRequest
-import cnt2020.kkywalk2.api.dto.CreateResponse
-import cnt2020.kkywalk2.api.dto.FindBookResponse
-import cnt2020.kkywalk2.api.dto.FindBooksResponse
+import cnt2020.kkywalk2.api.dto.*
 import cnt2020.kkywalk2.api.service.TelegramBotService
 import org.springframework.web.bind.annotation.*
 
@@ -15,18 +12,23 @@ class TelegramBotController(
 ) {
 
     @PostMapping
-    fun create(@RequestBody createRequest: CreateRequest): CreateResponse {
-        return telegramBotService.create(createRequest)
+    fun create(@RequestBody request: CreateRequest): CreateResponse {
+        return telegramBotService.create(request)
     }
 
     @GetMapping
-    fun findBooks(): FindBooksResponse {
+    fun findTelegramBots(): FindTelegramBotsResponse {
         return telegramBotService.findTelegramBots()
     }
 
     @GetMapping("/{id}")
-    fun findBook(@PathVariable id: Long): Either<Throwable, FindBookResponse> {
+    fun findTelegramBot(@PathVariable id: Long): Either<Throwable, FindTelegramBotResponse> {
         return telegramBotService.findTelegramBot(id)
+    }
+
+    @PostMapping("/{id}/birthday-alarm")
+    fun addBirthDayAlarm(@PathVariable id: Long, @RequestBody request: AddBirthdayAlarmRequest): Either<Throwable, AddBirthdayAlarmResponse> {
+        return telegramBotService.addBirthdayAlarm(id, request)
     }
 
 }

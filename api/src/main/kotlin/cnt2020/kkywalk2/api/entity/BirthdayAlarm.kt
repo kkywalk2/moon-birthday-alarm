@@ -13,9 +13,12 @@ class BirthdayAlarm(
     @Column(name = "id", nullable = false)
     val id: Long = 0,
 
+    @Column(name = "name")
+    val name: String,
+
     @JoinColumn(name = "telegram_bot_id", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.EAGER)
-    val telegramBot: TelegramBot,
+    val telegramBot: TelegramBot? = null,
 
     @Column(name = "telegram_bot_id")
     val telegramBotId: Long = 0,
@@ -25,9 +28,9 @@ class BirthdayAlarm(
 
     @field:CreationTimestamp
     @Column(name = "created_at")
-    val createdAt: LocalDateTime,
+    val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @field:UpdateTimestamp
     @Column(name = "updated_at")
-    val updatedAt: LocalDateTime
+    val updatedAt: LocalDateTime = LocalDateTime.now()
 )
