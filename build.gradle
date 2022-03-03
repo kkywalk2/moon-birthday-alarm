@@ -59,3 +59,15 @@ subprojects {
         }
     }
 }
+
+project(':api') {
+    dependencies {
+        implementation project(':core')
+    }
+}
+
+project(':consumer') {
+    dependencies {
+        implementation project(':core')
+    }
+}

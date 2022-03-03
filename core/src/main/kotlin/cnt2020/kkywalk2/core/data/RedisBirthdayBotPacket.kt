@@ -1,4 +1,4 @@
-package cnt2020.kkywalk2.api.dto
+package cnt2020.kkywalk2.core.data
 
 import java.time.LocalDateTime
 

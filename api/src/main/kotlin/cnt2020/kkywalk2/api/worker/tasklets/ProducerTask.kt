@@ -1,7 +1,7 @@
 package cnt2020.kkywalk2.api.worker.tasklets
 
-import cnt2020.kkywalk2.api.dto.RedisBirthdayBotPacket
 import cnt2020.kkywalk2.api.repository.BirthdayAlarmRepository
+import cnt2020.kkywalk2.core.data.RedisBirthdayBotPacket
 import org.springframework.batch.core.StepContribution
 import org.springframework.batch.core.scope.context.ChunkContext
 import org.springframework.batch.core.step.tasklet.Tasklet
