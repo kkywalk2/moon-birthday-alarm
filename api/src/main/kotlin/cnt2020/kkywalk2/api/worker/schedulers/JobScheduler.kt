@@ -16,7 +16,7 @@ class ExampleScheduler(
 ) {
 
     //@Scheduled(cron="0 20 3 * * *")
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 10000)
     fun executeJob() {
         try {
             if (job != null) {

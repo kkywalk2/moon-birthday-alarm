@@ -1,8 +1,10 @@
 package cnt2020.kkywalk2.consumer
 
+import cnt2020.kkywalk2.core.data.RedisBirthdayBotPacket
 import io.lettuce.core.*
 import io.lettuce.core.api.StatefulRedisConnection
 import io.lettuce.core.api.sync.RedisCommands
+import java.time.LocalDateTime
 
 fun main(args: Array<String>) {
     val redisClient: RedisClient = RedisClient.create("redis://localhost:6379")
@@ -23,13 +25,19 @@ fun main(args: Array<String>) {
         )
         if (messages.isNotEmpty()) {
             for (message in messages) {
-                println(message)
                 // Confirm that the message has been processed using XACK
                 syncCommands.xack("bot-stream", "application_1", message.id)
+
+                val birthdayBotPacket = RedisBirthdayBotPacket(
+                    name = message.body["name"]!!,
+                    token = message.body["token"]!!,
+                    birthdayDateTime = LocalDateTime.parse(message.body["birthdayDateTime"])
+                )
+                println(birthdayBotPacket)
             }
         }
     }
 
-    connection.close();
-    redisClient.shutdown();
+    connection.close()
+    redisClient.shutdown()
 }
