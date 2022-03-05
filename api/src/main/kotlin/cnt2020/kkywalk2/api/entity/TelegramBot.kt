@@ -19,6 +19,9 @@ class TelegramBot(
     @Column(name = "token")
     val token: String,
 
+    @Column(name = "chat_id")
+    val chatId: String,
+
     @field:CreationTimestamp
     @Column(name = "created_at")
     val createdAt: LocalDateTime = LocalDateTime.now(),
@@ -35,11 +38,20 @@ class TelegramBot(
         id: Long = this.id,
         name: String = this.name,
         token: String = this.token,
+        chatId: String = this.chatId,
         createdAt: LocalDateTime = this.createdAt,
         updatedAt: LocalDateTime = this.updatedAt,
         birthdayAlarmList: List<BirthdayAlarm> = this.birthdayAlarmList
     ): TelegramBot {
-        return TelegramBot(id, name, token, createdAt, updatedAt, birthdayAlarmList)
+        return TelegramBot(
+            id = id,
+            name = name,
+            token = token,
+            chatId = chatId,
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+            birthdayAlarmList = birthdayAlarmList
+        )
     }
 
 }

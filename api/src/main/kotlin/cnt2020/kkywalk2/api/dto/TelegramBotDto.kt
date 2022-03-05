@@ -5,7 +5,8 @@ import java.time.LocalDateTime
 data class TelegramBotDto(
     val id : Long = 0,
     val name: String = "",
-    val token : String = "",
+    val token: String = "",
+    val chatId: String = "",
     val updatedAt : LocalDateTime = LocalDateTime.now(),
     val birthdayAlarmList: List<BirthdayAlarmDto> = listOf()
 )

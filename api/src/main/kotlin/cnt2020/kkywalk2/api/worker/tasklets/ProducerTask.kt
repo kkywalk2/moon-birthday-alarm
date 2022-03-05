@@ -33,6 +33,7 @@ class ProducerTask(
                     RedisBirthdayBotPacket(
                         it.name,
                         it.telegramBot?.token ?: "",
+                        it.telegramBot?.chatId ?: "",
                         it.birthdayDateTime
                     )
                 )

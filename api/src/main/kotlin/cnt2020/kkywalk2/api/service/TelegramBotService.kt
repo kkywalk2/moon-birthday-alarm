@@ -28,7 +28,8 @@ class TelegramBotService(
     fun create(createRequest: CreateRequest): TelegramBotDto {
         val telegramBot = TelegramBot(
             name = createRequest.name,
-            token = createRequest.token
+            token = createRequest.token,
+            chatId = createRequest.chatId
         )
         return telegramBotRepository.save(telegramBot).toDto()
     }
@@ -55,11 +56,17 @@ class TelegramBotService(
     }
 
     private fun TelegramBot.toDto(): TelegramBotDto {
-        return TelegramBotDto(this.id, this.name, this.token, this.updatedAt, this.birthdayAlarmList.map { it.toDto() })
+        return TelegramBotDto(
+            id = this.id,
+            name = this.name,
+            token = this.token,
+            chatId = this.chatId,
+            updatedAt = this.updatedAt,
+            birthdayAlarmList = this.birthdayAlarmList.map { it.toDto() })
     }
 
     private fun BirthdayAlarm.toDto(): BirthdayAlarmDto {
-        return BirthdayAlarmDto(this.id, this.name, this.birthdayDateTime)
+        return BirthdayAlarmDto(id = this.id, name = this.name, birthdayDateTime = this.birthdayDateTime)
     }
 
 }

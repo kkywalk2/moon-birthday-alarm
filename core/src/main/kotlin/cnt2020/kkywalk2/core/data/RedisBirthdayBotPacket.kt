@@ -5,5 +5,6 @@ import java.time.LocalDateTime
 data class RedisBirthdayBotPacket (
     val name: String = "",
     val token: String = "",
+    val chatId: String = "",
     val birthdayDateTime: LocalDateTime = LocalDateTime.now(),
 )
