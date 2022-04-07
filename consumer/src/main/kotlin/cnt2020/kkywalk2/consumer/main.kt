@@ -9,9 +9,14 @@ import io.ktor.http.*
 import io.lettuce.core.*
 import io.lettuce.core.api.StatefulRedisConnection
 import io.lettuce.core.api.sync.RedisCommands
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.kotlin.subscribeBy
+import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
 
-suspend fun main(args: Array<String>) {
+fun main(args: Array<String>) {
     val redisClient: RedisClient = RedisClient.create("redis://localhost:6379")
     val client = HttpClient(CIO)
 
@@ -25,32 +30,50 @@ suspend fun main(args: Array<String>) {
     }
 
     while (true) {
-        val messages: MutableList<StreamMessage<String, String>> = syncCommands.xreadgroup(
-            Consumer.from("bot-group", "consumer_1"),
-            XReadArgs.StreamOffset.lastConsumed("bot-stream")
-        )
-        if (messages.isNotEmpty()) {
-            for (message in messages) {
-                syncCommands.xack("bot-stream", "application_1", message.id)
-
-                val birthdayBotPacket = RedisBirthdayBotPacket(
-                    name = message.body["name"]!!,
-                    token = message.body["token"]!!,
-                    birthdayDateTime = LocalDateTime.parse(message.body["birthdayDateTime"])
-                )
-                println(birthdayBotPacket)
-
-
-                client.request<HttpResponse>("https://api.telegram.org/bot${birthdayBotPacket.token}/sendmessage?") {
-                    method = HttpMethod.Get
-                    parameter("text", birthdayBotPacket.name)
-                    parameter("chat_id", birthdayBotPacket.chatId)
-                }
-            }
-        }
+        Observable.fromCallable {
+            syncCommands.xreadgroup(
+                Consumer.from("bot-group", "consumer_1"),
+                XReadArgs.StreamOffset.lastConsumed("bot-stream")
+            ) }
+            .filter { it.isNotEmpty() }
+            .observeOn(Schedulers.io())
+            .subscribeBy(
+                onNext = { list ->
+                    list.map {
+                            syncCommands.xack("bot-stream", "application_1", it.id)
+                            sendTelegramMessage(client, it)
+                                .subscribeBy(
+                                    onNext = { response -> println(response) },
+                                    onError = { throwable -> throwable.printStackTrace() }
+                                )
+                    }
+                },
+                onError = { it.printStackTrace() }
+            )
     }
 
     client.close()
     connection.close()
     redisClient.shutdown()
+}
+
+fun sendTelegramMessage(
+    client: HttpClient,
+    message: StreamMessage<String, String>
+): Observable<HttpResponse> {
+    return Observable.fromCallable {
+        val birthdayBotPacket = RedisBirthdayBotPacket(
+            name = message.body["name"]!!,
+            token = message.body["token"]!!,
+            birthdayDateTime = LocalDateTime.parse(message.body["birthdayDateTime"])
+        )
+
+        runBlocking {
+            client.request<HttpResponse>("https://api.telegram.org/bot${birthdayBotPacket.token}/sendmessage?") {
+                method = HttpMethod.Get
+                parameter("text", birthdayBotPacket.name)
+                parameter("chat_id", birthdayBotPacket.chatId)
+            }
+        }
+    }
 }
