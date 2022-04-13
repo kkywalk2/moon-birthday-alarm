@@ -23,8 +23,18 @@ class BirthdayAlarm(
     @Column(name = "telegram_bot_id")
     val telegramBotId: Long = 0,
 
+    @Deprecated("change to month and day")
     @Column(name = "birthday_datetime")
     val birthdayDateTime: LocalDateTime,
+
+    @Column(name = "month")
+    val month: Int,
+
+    @Column(name = "day")
+    val day: Int,
+
+    @Column(name = "is_moon_birthday")
+    val isMoonBirthDay: Boolean,
 
     @field:CreationTimestamp
     @Column(name = "created_at")

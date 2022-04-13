@@ -15,7 +15,7 @@ class BirthdayAlarmService(
     }
 
     private fun BirthdayAlarm.toDto(): BirthdayAlarmDto {
-        return BirthdayAlarmDto(this.id, this.name, this.birthdayDateTime)
+        return BirthdayAlarmDto(this.id, this.name, this.month, this.day, this.isMoonBirthDay, this.birthdayDateTime)
     }
 
 }

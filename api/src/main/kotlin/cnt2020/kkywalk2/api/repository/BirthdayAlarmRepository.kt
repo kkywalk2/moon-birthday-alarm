@@ -10,4 +10,6 @@ interface BirthdayAlarmRepository : JpaRepository<BirthdayAlarm, Long> {
 
     fun findAllByBirthdayDateTimeBetween(start: LocalDateTime, end: LocalDateTime) : List<BirthdayAlarm>
 
+    fun findByMonthAndDay(month: Int, day: Int) : List<BirthdayAlarm>
+
 }

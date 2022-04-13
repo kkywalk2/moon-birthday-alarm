@@ -10,11 +10,9 @@ import io.lettuce.core.*
 import io.lettuce.core.api.StatefulRedisConnection
 import io.lettuce.core.api.sync.RedisCommands
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.runBlocking
-import java.time.LocalDateTime
 
 fun main(args: Array<String>) {
     val redisClient: RedisClient = RedisClient.create("redis://localhost:6379")
@@ -65,7 +63,7 @@ fun sendTelegramMessage(
         val birthdayBotPacket = RedisBirthdayBotPacket(
             name = message.body["name"]!!,
             token = message.body["token"]!!,
-            birthdayDateTime = LocalDateTime.parse(message.body["birthdayDateTime"])
+            chatId = message.body["chatId"]!!
         )
 
         runBlocking {

@@ -48,6 +48,9 @@ class TelegramBotService(
             val birthdayAlarm = BirthdayAlarm(
                 name = addBirthdayAlarmRequest.name,
                 telegramBotId = telegramBot.id,
+                month = addBirthdayAlarmRequest.month,
+                day = addBirthdayAlarmRequest.day,
+                isMoonBirthDay = addBirthdayAlarmRequest.isMoonBirthday,
                 birthdayDateTime = addBirthdayAlarmRequest.birthdayDateTime
             )
             birthdayAlarmRepository.save(birthdayAlarm)
@@ -66,7 +69,14 @@ class TelegramBotService(
     }
 
     private fun BirthdayAlarm.toDto(): BirthdayAlarmDto {
-        return BirthdayAlarmDto(id = this.id, name = this.name, birthdayDateTime = this.birthdayDateTime)
+        return BirthdayAlarmDto(
+            id = this.id,
+            name = this.name,
+            birthdayDateTime = this.birthdayDateTime,
+            month = this.month,
+            day = this.day,
+            isMoonBirthday = this.isMoonBirthDay
+        )
     }
 
 }
